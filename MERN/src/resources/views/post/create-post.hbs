@@ -1,0 +1,23 @@
+<form method="POST" action = "/post/stored"> {{! --  action to url -> post để lấy dữ liệu trên route, }}
+  <div class="mb-3">
+    <label for="title" class="form-label">Title: </label>
+    <input type="text" class="form-control" name="title" id="title"  >
+  </div>
+  <div class="mb-3">
+    <label for="description" class="form-label">Description:</label>
+    <input type="text" class="form-control" name="description" id="description" >
+  </div>
+    <div class="mb-3">
+    <label for="url" class="form-label">url Image: </label>
+    <input type="text" class="form-control" name="url" id="url"  >
+  </div>
+  <div class="mb-3">
+  <select class="form-select" name="status" aria-label="Default select example">
+    <option selected hidden value="TO LEARN">Chose Status:</option>
+    <option value="TO LEARN">TO LEARN</option>
+    <option value="LEARNING">LEARNING</option>
+    <option value="LEARNED">LEARNED</option>
+    </select>
+    </div>
+  <button type="submit" class="btn btn-primary">Submit Form </button>
+</form>

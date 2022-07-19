@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app"></div>
+
+    <script type="text/babel">
+
+        // function Header(){
+        //     return (
+        //         <h1>Heading</h1>
+        //     )
+        // }
+
+        // class Content extends React.Component {
+        //     render(){
+        //         return (
+        //             <div className="header">New Header</div>
+        //         )
+        //     }
+        // }
+
+        // const app = (
+        //     <div>
+        //         <Header />
+        //         <Content />
+        //         <h1>Footer</h1>
+        //     </div>
+        // )
+
+
+        const app = (
+            <div className = 'post-lists'>
+                <PostItem />
+                <PostItem />
+                <PostItem />
+                <PostItem />
+            </div>
+        )
+
+        function PostItem(img,title,desc,published){
+            return (
+                <div className= 'post-item'>
+                    <img src="https://www.imgacademy.com/sites/default/files/2022-07/img-homepage-meta.jpg"/>
+                    <h2 className="post-title">C#(.NET) - Tương tác với File</h2>
+                    <p className="post-desc">Bạn có kiến thức ngôn ngữ C#! </p>
+                    <p className="post-published">Một ngày trước</p>
+                </div>
+            )
+        }
+
+
+        const appRoot = ReactDOM.createRoot(document.getElementById('app'))
+        appRoot.render(app);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+        .a2323{
+            color: red;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div id="root"></div>
+    <div id="root2"></div>
+    <div id="root3"></div>
+
+    <script type="text/babel">
+
+        
+
+        const coures = [
+            {
+                name:"HTML",
+            },
+            {
+                name:"PHP",
+            },
+            {
+                name:"JAVA",
+            }
+        ]
+
+        const hElement = <ul className='a2323'>
+            {coures.map((obj,index) => <li key={index}> {obj.name} </li> )}
+            <li> bcd </li>
+        </ul>;
+
+        const root3 = ReactDOM.createRoot(document.getElementById('root'));
+
+
+        root3.render(hElement);
+
+
+
+    </script>
+</body>
+</html>

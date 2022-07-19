@@ -1,0 +1,47 @@
+<form method = "POST" action="">
+    <div class="mb-3">
+        <label for="searchGG" class="form-label">Search anything you like</label>
+        <input type="text" class="form-control" id="searchGG" name="q" placeholder="Search anything you want ">
+    </div>
+    <button type="submit" class="btn btn-primary">Tìm</button>
+</form>
+
+<div class="mt-4">
+    <div class="row">
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">
+        Name
+      </th>
+      <th scope="col">
+        Number
+      </th>
+      <th scope="col" colspan="2">Sửa / Thùng rác</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each friends}}
+    <tr>
+      <th scope="row">{{sum @index 1}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.number}}</td>
+      <td>
+        <a href = "/courses/edit/{{this._id}}" class =" btn btn-link">Sửa</a>
+        <a class =" btn btn-link" data-bs-toggle="modal" data-bs-id="{{this._id}}" data-bs-name="{{this.name}}" data-bs-target="#staticBackdrop">Thùng rác</a>
+      </td>
+    </tr>
+    {{else}}
+    <tr>
+        <td colspan = '5' class = 'text-center'>
+            Bạn chưa có khóa học nào.
+            <a href="/courses/create" >Đăng ký khóa học mới nào !</a>
+        </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+    </div>
+</div>

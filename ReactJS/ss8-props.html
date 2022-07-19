@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app"></div>
+
+    <script type="text/babel">
+    
+        
+        // function Input( {label , ...InputProps}){ // rest
+        //     return (
+        //         <div>
+        //             <label>{label}</label>
+        //             <input {...InputProps} /> // spread 
+        //         </div>
+        //     )
+        // }
+
+        // function App({title, content}){
+
+        //     let firstAccess = true;
+        //     // true thì trả về đằng sau ở đây là Welcome to F8
+        //     return (
+        //         <div id="wrapper">
+        //             <Input
+        //                 label = {'HELLO'}
+        //                 // type = {'checkbox'}
+        //                 placeholder = {'Ok'}
+        //                 onFocus = {() => console.log(Math.random())}
+        //             />
+        //         </div>
+        //     )
+        // }
+
+        //renderProps
+
+        const arr = ['BMW',"MAC","VES"];
+
+        function List({ data, children}){
+            return (
+                <ul>
+                    {data.map((arr,index)=>children(arr,index))}
+                </ul>
+            )
+        }
+
+        function App({title, content}){
+
+            let firstAccess = true;
+            // true thì trả về đằng sau ở đây là Welcome to F8
+            return (
+                <div id="wrapper">
+                    <List data={arr}>
+                        {(arr,index) => <li key={index}>{arr}</li>}
+                    </List>
+                </div>
+            )
+        }
+
+
+        const appRoot = ReactDOM.createRoot(document.getElementById('app'))
+        appRoot.render(<App title = "Welcome back" content="Cotent"/>);
+
+    </script>
+</body>
+</html>

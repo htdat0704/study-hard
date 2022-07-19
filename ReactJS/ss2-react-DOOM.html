@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="root"></div>
+    <div id="root2"></div>
+    <div id="root3"></div>
+
+    <script >
+        // const divItem = React.createElement(
+        //     'div',
+        //     {
+        //     className: "post-item",
+        //     },
+        //     React.createElement('h2',{ title : "Học ReactJs tại F8"},"Học ReactJs"),
+        //     React.createElement('p',null,"Học ReactJS từ cơ bản đến nâng cao")
+        // );
+
+        // const ul = React.createElement(
+        //     'ul',
+        //     null,
+        //     React.createElement('li',null,"js"),
+        //     React.createElement('li',null,'ReactJS')
+        // )
+
+        const container = document.getElementById('root');
+        const container2 = document.getElementById('root2');
+        const container3 = document.getElementById('root3');
+
+        // REACTDOM 17
+        // ReactDOM.render(divItem, root);
+        // ReactDOM.render(ul,root2);
+
+        // REACTDOM 18
+        const ul = React.createElement(
+            'ul',
+            null,
+            React.createElement('li',null,"js"),
+            React.createElement('li',null,'ReactJS')
+        )
+        const divItem = React.createElement(
+            'div',
+            {
+            className: "post-item",
+            },
+            React.createElement('h2',{ title : "Học ReactJs tại F8"},"Học ReactJs"),
+            React.createElement('p',null,"Học ReactJS từ cơ bản đến nâng cao")
+        );
+
+        const hElement = React.createElement('h1',{ title: "Hello", className:"heading"},"Hello guys!");
+
+        const root3 = ReactDOM.createRoot(container3);
+        const root = ReactDOM.createRoot(container);
+        const root2 = ReactDOM.createRoot(container2);
+
+
+        root.render(ul);    
+        root2.render(divItem);
+        root3.render(hElement);
+
+
+
+    </script>
+</body>
+</html>

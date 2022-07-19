@@ -1,0 +1,103 @@
+
+<form name='form-container' method="POST" class="mt-4" action = "/courses/handle-form-store-action">
+<h1>Khóa học của tôi</h1>
+<a href="/me/trash/courses">Thùng rác</a> có {{this.countDelete}} khóa
+<br> <br>
+<br>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col" colspan="2">#</th>
+      <th scope="col">
+        Name
+      </th>
+      <th scope="col">
+        Descripton
+      </th>
+      <th scope="col">
+        Status
+      </th>
+      <th scope="col" colspan="2">Sửa / Thùng rác</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each posts}}
+    <tr>
+      <td>
+        <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="{{this._id}}" name="courseIds[]" >
+      </td>
+      <th scope="row">{{sum @index 1}}</th>
+      <td>{{this.title}}</td>
+      <td>{{this.description}}</td>
+      <td>{{this.status}}</td>
+      <td>
+        <a href = "/post/edit-post/{{this._id}}" class =" btn btn-link">Sửa</a>
+        <a class =" btn btn-link" data-bs-toggle="modal" data-bs-id="{{this._id}}" data-bs-name="{{this.name}}" data-bs-target="#staticBackdrop">Thùng rác</a>
+      </td>
+    </tr>
+    {{else}}
+    <tr>
+        <td colspan = '5' class = 'text-center'>
+            Bạn chưa có khóa học nào.
+            <a href="/courses/create" >Đăng ký khóa học mới nào !</a>
+        </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+</form>
+
+{{!-- Confrim delete courese --}}
+
+<div class="modal" tabindex="-1" id="staticBackdrop" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Bỏ vào thùng rác Huh ?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" value="2"></button>
+      </div>
+      <div class="modal-body">
+        <p>Chuyển vào thùng rác: {{this.name}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="deleteFunction()" class="btn btn-danger" >Chuyển vào thùng rác</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Hủy</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- Confrim delete courese --}}
+
+<form method="POST" action="" name="deletetoTrash-course-form"></form>
+
+<script>
+  var id;
+  var formDelete = document.forms['deletetoTrash-course-form'];
+  var checkboxAll = $('#checkbox-all');
+  const exampleModal = document.getElementById('staticBackdrop');
+  var courseItemCheckedBox = $('input[name="courseIds[]"]');
+  var checkBoxCheckAll = $('.btn-check-all-submit');
+  var formContainer = document.forms['form-container'];
+
+  exampleModal.addEventListener('show.bs.modal', event => {
+    // Button that triggered the modal
+     const button = event.relatedTarget
+  // Extract info from data-bs-* attributes
+    id = button.getAttribute('data-bs-id');
+    const name = button.getAttribute('data-bs-name');
+
+// Update modal
+    const modalBodyInput = exampleModal.querySelector('.modal-body p')
+    modalBodyInput.innerText = "Xóa "+name;
+})
+const  deleteFunction = () =>{
+      formDelete.action = '/courses/soft/'+id+'?_method=DELETE';
+      formDelete.submit();
+}
+
+  
+
+
+</script>

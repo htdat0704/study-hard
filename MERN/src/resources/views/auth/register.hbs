@@ -1,0 +1,15 @@
+<form method="POST" action = "/api/storeRegister"> {{! --  action to url -> post để lấy dữ liệu trên route, }}
+  <div class="mb-3">
+    <label for="username" class="form-label">Tên Đăng nhập: </label>
+    <input type="text" class="form-control" name="username" id="username"   aria-describedby="emailHelp">
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">Mật khẩu</label>
+    <input type="text" class="form-control" name="password" id="password"  aria-describedby="emailHelp">
+  </div>
+    <div class="mb-3">
+    <label for="image" class="form-label">link ảnh</label>
+    <input type="text" class="form-control" name="image" id="image"  aria-describedby="emailHelp">
+  </div>
+  <button type="submit" class="btn btn-primary">Đăng kí </button>
+</form>

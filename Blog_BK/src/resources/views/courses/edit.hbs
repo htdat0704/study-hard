@@ -1,0 +1,17 @@
+<form method="POST" action="/courses/{{course._id}}?_method=PUT">
+<h1>CẬP NHẬP KHÓA HỌC</h1>
+  <div class="mb-3">
+    <label for="name" class="form-label">Tên khóa học: </label>
+    <input type="text" class="form-control" name="name" id="name" value="{{course.name}}"   aria-describedby="emailHelp">
+  </div>
+  <div class="mb-3">
+    <label for="descripton" class="form-label">Mô tả</label>
+    <input type="text" class="form-control" name="descripton" id="descripton"  value= "{{course.descripton}}" aria-describedby="emailHelp">
+  </div>
+  <div class="mb-3">
+    <label for="image" class="form-label">link ảnh</label>
+    <input type="text" class="form-control" name="image" id="descripton"  value= "{{course.image}}" aria-describedby="emailHelp">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Cập nhập Khóa học </button>
+</form>
