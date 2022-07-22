@@ -47,7 +47,21 @@ const AuthContextProvider = ({children}) => {
         }
     }
 
-    const authContextData = {loginUser, state}
+    const registerUser = async userForm => {
+        try{
+            const response =await axios.post('http://localhost:5000/auth/register',userForm);
+            if(response.data.success)
+            localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data.accessToken)
+            
+            return response.data
+        }catch(e){
+            console.log(e)
+            if(e.response.data) return e.response.data;
+            else return {success: false, message: e.message}
+        }
+    }
+
+    const authContextData = {registerUser, loginUser, state}
 
     return (
         <AuthContext.Provider value={authContextData}>

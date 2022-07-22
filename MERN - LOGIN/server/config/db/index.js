@@ -2,7 +2,7 @@ const mongo = require('mongoose');
 
 async function connect() {
     try {
-        await mongo.connect('mongodb://localhost:27017/MERN', {
+        await mongo.connect('mongodb://127.0.0.1:27017/MERN', {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });

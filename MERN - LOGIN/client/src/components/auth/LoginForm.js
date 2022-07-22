@@ -24,7 +24,7 @@ const LoginForm = () => {
             if(loginData.success){
                 navigate('/dashboard')
             }else{
-
+                alert(loginData.message)
             }
         }catch(e){
             console.log(e)
@@ -35,12 +35,11 @@ const LoginForm = () => {
 
     return(
         <>
-            <Form className='my-4' onSubmit={login}>
+            <Form  className='my-4 form-group' onSubmit={login}>
                 <Form.Group >
                     <Form.Control 
                         type='text' 
                         placeholder='Username' 
-                        className='form-control' 
                         name ='username' 
                         required 
                         value={username}
@@ -48,21 +47,20 @@ const LoginForm = () => {
                     />
                 </Form.Group>
 
-                <Form.Group className='form-group'>
+                <Form.Group >
                     <Form.Control 
                         type='password' 
                         placeholder='Password'
-                        className='form-control'
                         name ='password' 
                         required 
                         value={password}
                         onChange={handleOnChange}
                     />
                 </Form.Group>
-
+           
                 <Button variant='success' type='submit'>Login</Button>
             </Form>
-            <p>Don't have any account?
+            <p>Don't have any account? 
                 <Link to='/register'>
                     <Button variant='info' size='sm' className='ml-2'>Resgister</Button>
                 </Link>

@@ -47,7 +47,7 @@ class AuthController{
 
     registerAuth = async (req,res,next) => {
         const {username, password} = req.body;
-
+        console.log(username, password)
         if(!username | !password){
             return res.status(400).json({success: false, message: 'Missing username and password'})
         }
@@ -61,16 +61,12 @@ class AuthController{
 
             const hashedPassword = await argon2.hash(password)
 
-            const newUser = {
-                username,
-                password: hashedPassword,
-            }
+            const newUser = new User(req.body);
+            newUser.password = hashedPassword;
 
             await newUser.save()
-
             //access token
             const accessToken = jwt.sign({userId: newUser._id},process.env.ACCESS_TOKEN_SECRET)
-
             res.json({success: true, message: "Ok", accessToken})
 
         }catch(e){

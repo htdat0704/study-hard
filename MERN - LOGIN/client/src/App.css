@@ -110,3 +110,8 @@ button.post-button.btn:active {
 .post-title {
 	margin-bottom: 0.5rem;
 }
+
+.form-group .form-control {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
