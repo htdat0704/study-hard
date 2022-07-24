@@ -1,5 +1,5 @@
-import { authReducer,authLoading } from '../../reducers/authReducer';
-import { setAuthFail, setAuthSuccess } from '../../reducers/authActions';
+import { authReducer,authLoading } from '../../reducers/AuthReducer/authReducer';
+import { setAuthFail, setAuthSuccess } from '../../reducers/AuthReducer/authActions';
 import { useReducer,useEffect } from 'react'
 import { AuthContext } from './AuthContext';
 import axios from 'axios'
@@ -38,7 +38,7 @@ const AuthContextProvider = ({children}) => {
             const response =await axios.post('http://localhost:5000/auth/login',userForm);
             if(response.data.success)
             localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data.accessToken)
-            
+            dispatch(setAuthSuccess(response.data.user))
             return response.data
         }catch(e){
             console.log(e)
@@ -52,7 +52,7 @@ const AuthContextProvider = ({children}) => {
             const response =await axios.post('http://localhost:5000/auth/register',userForm);
             if(response.data.success)
             localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data.accessToken)
-            
+            dispatch(setAuthSuccess(response.data.newUser))
             return response.data
         }catch(e){
             console.log(e)
@@ -61,7 +61,13 @@ const AuthContextProvider = ({children}) => {
         }
     }
 
-    const authContextData = {registerUser, loginUser, state}
+    const logoutUser = () => {
+        localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
+        dispatch(setAuthFail())
+    }
+
+
+    const authContextData = {registerUser, loginUser,logoutUser, state}
 
     return (
         <AuthContext.Provider value={authContextData}>

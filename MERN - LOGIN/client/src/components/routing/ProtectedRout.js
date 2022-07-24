@@ -1,22 +1,19 @@
-import { Route } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "../../context/Auth/AuthContext";
-import Spinner from "react-bootstrap/esm/Spinner";
+import { Navigate } from "react-router-dom";
+import NavbarMenu from "../layout/NavBar"
 
-const ProtectedRoute = ({component: Component}) =>{
-    const {state: {authLoading, isAuthenticated}} =  useContext(AuthContext);
+const Protected = ({ user, children }) => {
 
-    if(authLoading){
-        return (
-            <div className="spinner-container">
-                <Spinner animation="border" variant='info' />
-            </div>
-        )
+    if (!user) {
+        return <Navigate to="/login" replace />;
     }
-
-    return ( 
-        <Route element={<Component />} />
+    
+    return (
+        <>
+            <NavbarMenu></NavbarMenu>
+             {children}
+        </>
     )
-}
 
-export default ProtectedRoute
+};  
+
+export default Protected;

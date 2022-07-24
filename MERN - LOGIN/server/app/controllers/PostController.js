@@ -1,4 +1,5 @@
 const Post = require('../models/Post')
+const User = require('../models/User')
 const argon2 = require('argon2')
 const jwt = require('jsonwebtoken')
 
@@ -27,8 +28,21 @@ class PostController {
 
    seePost = async (req,res,next) => {
         try{
-            const post = await Post.find({user: req.userId})
-            res.json({success: true, posts})
+            const posts = await Post.find({}).lean()
+            const users = await User.find({}).lean()
+            const postHaveUser = await posts.map( post => {
+                let username = null;
+                users.forEach( user => {
+                    if (user._id.equals(post.user)){
+                        username = user.username
+                    }
+                })
+                return {
+                    ...post,
+                    username
+                }
+            })
+            res.json({success: true, postHaveUser})
         }catch(error){
             console.log(error)
             return res.status(400).json({success: false, message: "ERROR"})

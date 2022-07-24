@@ -6,6 +6,6 @@ const PostController = require('../app/controllers/PostController');
 
 router.post('/create',verifyToken,PostController.createPost)
 router.put('/update/:id',verifyToken,PostController.updatePost)
-router.get('/',verifyToken,PostController.seePost)
+router.get('/',PostController.seePost)
 
 module.exports = router

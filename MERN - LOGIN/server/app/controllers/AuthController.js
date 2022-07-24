@@ -37,7 +37,7 @@ class AuthController{
 
             const accessToken = jwt.sign({userId: user._id},process.env.ACCESS_TOKEN_SECRET)
 
-            res.json({success: true, message: "Ok", accessToken})
+            res.json({success: true, message: "Ok", accessToken, user})
 
         }catch(error){
             console.log(error)
@@ -67,7 +67,7 @@ class AuthController{
             await newUser.save()
             //access token
             const accessToken = jwt.sign({userId: newUser._id},process.env.ACCESS_TOKEN_SECRET)
-            res.json({success: true, message: "Ok", accessToken})
+            res.json({success: true, message: "Ok", accessToken, newUser})
 
         }catch(e){
             console.log(e)
