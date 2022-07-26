@@ -6,10 +6,20 @@ import {Link} from "react-router-dom"
 import logoutIcon from '../../assets/logout.svg'
 import {AuthContext} from '../../context/Auth/AuthContext'
 import {useContext} from 'react'
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import { PostContext } from "../../context/Post/PostContext"
+
+
 
 const NavbarMenu = () => {
 
     const {state : { user : {username }}, logoutUser} = useContext(AuthContext) ;
+    const {setStateDefault} = useContext(PostContext)
+
+    const handleLogout = () => {
+        setStateDefault()
+        logoutUser()
+    }
 
     return (
         <Navbar expand='lg' bg='primary' variant='dark' className='shadow' >
@@ -28,10 +38,20 @@ const NavbarMenu = () => {
                 </Nav>
 
                 <Nav style={{marginLeft: 'auto', marginRight: '30px'}}>
-                    <Nav.Link className='font-weight-bolder text-white' disabled >
-                        Welcome {username}
-                    </Nav.Link>
-                    <Button variant='secondary' className='font-weight-bolder text-white' onClick ={logoutUser} to='/Login' as={Link} >
+                    <NavDropdown title={<>Welcome {username}</>} id="basic-nav-dropdown">
+                        <NavDropdown.Item to='/mypost' as={Link}>
+                            MyPost
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="#action/3.2">
+                            Another action
+                        </NavDropdown.Item>
+                        <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item href="#action/3.4" onClick ={logoutUser}>
+                            Logout
+                        </NavDropdown.Item>
+                    </NavDropdown>
+                    <Button variant='secondary' className='font-weight-bolder text-white' onClick ={handleLogout} to='/Login' as={Link} >
                         <img src={logoutIcon} alt="logOut" width='32' height='32' className='mr-2'/>
                         Logout
                     </Button>

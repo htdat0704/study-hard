@@ -12,14 +12,28 @@ class PostController {
         }
 
         try{
-            const newPost = req.body;
-            newPost.url = url.startsWith('https://') ? url : `https://${url}`
-            newPost.status = status || "TO LEARN"
-            newPost.user = '62cf9d95df158daa3fe5f816'
+            const newPost = new Post({
+                title,
+                description,
+                url: url.startsWith('https://') ? url : `https://${url}`,
+                status: status || 'TO LEARN',
+                user: req.userId
+            })
 
             await newPost.save()
+                
+            const user = await User.findOne({_id: req.userId}).lean()
+
+            const postOut = {
+                title,
+                description,
+                url: url.startsWith('https://') ? url : `https://${url}`,
+                status: status || 'TO LEARN',
+                user: req.userId,
+                username: user.username
+            }
             
-            res.json({success: true, message: "Welcome to LEARN HEAR"})
+            res.json({success: true, message: "Welcome to LEARN HEAR", postOut})
         }catch(e){
             console.log(e)
             return res.status(400).json({success: false, message: "ERROR"})
@@ -49,22 +63,88 @@ class PostController {
         }
     }
 
-    updatePost = async (req,res) =>{
-        const {title,description,url,status} = req.body
-
-        let updatePost = {
-            title,
-            description: description || '',
-            url: (url.startsWith('https://') ? url : `https://${url}`) || '',
-            status: status || "TO LEARN",
+    seeUserPost = async (req,res,next) => {
+        try{
+            const posts = await Post.find({ user: req.userId }).populate('user', [
+                'username'
+            ])
+            res.json({success: true, posts})
+        }catch(error){
+            console.log(error)
+            return res.status(500).json({success: false, message: "ERROR"})
         }
+    }
 
-        const postUpdateCondition = {_id: req.params.id, user: req.userId}
-        
-        updatePost = await Post.findOneAndUpdate(postUpdateCondition, updatePost, {new: true})
+    updatePost = async (req,res) =>{
+        const { title, description, url, status } = req.body
 
-        if(!updatePost){
-            return res.status(500).json({success: false, message: "Post not found or user not author"})
+	// Simple validation
+	if (!title)
+		return res
+			.status(400)
+			.json({ success: false, message: 'Title is required' })
+
+	try {
+		let updatedPost = {
+			title,
+			description: description || '',
+			url: (url.startsWith('https://') ? url : `https://${url}`) || '',
+			status: status || 'TO LEARN'
+		}
+
+		const postUpdateCondition = { _id: req.params.id, user: req.userId }
+        console.log(req.params.id)
+        console.log(req.userId)
+
+		updatedPost = await Post.findOneAndUpdate(
+			postUpdateCondition,
+			updatedPost,
+			{ new: true }
+		)
+
+		// User not authorised to update post or post not found
+		if (!updatedPost)
+			return res.status(401).json({
+				success: false,
+				message: 'Post not found or user not authorised',
+			})
+
+		res.json({
+			success: true,
+			message: 'Excellent progress!',
+			post: updatedPost
+		})
+	} catch (error) {
+		console.log(error)
+		res.status(500).json({ success: false, message: 'Internal server error' })
+	}
+    }
+
+    deletePost = async (req,res) => {
+        try{
+            const postDeleteCondition = { _id: req.params.id, user: req.userId }
+            const deletedPost = await Post.findOneAndDelete(postDeleteCondition)
+            if (!deletedPost)
+                return res.status(401).json({
+                    success: false,
+                    message: 'Post not found or user not authorised'
+                })
+            res.json({ success: true, post: deletedPost }) 
+        }catch(err){
+            console.log(err)
+            res.status(500).json({success: false, message:'Interal server error'})
+        }
+    }
+
+    getOnePost = async (req,res) => {
+        try{
+            const postFind = await Post.findOne({slug: req.params.slug}).populate('user', [
+                'username'
+            ])
+            res.json({success: true, postFind})
+        }catch(e){
+            console.log(err)
+            res.status(500).json({success: false, message:'Interal server error'})
         }
     }
 }

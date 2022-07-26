@@ -5,6 +5,7 @@ export const setAuthSuccess = (response) => {
         type: SET_AUTH,
         payload: {
             isAuthenticated: true,
+            authLoading: false,
             user: response
         }
     }
@@ -15,7 +16,9 @@ export const setAuthFail = () => {
         type: SET_AUTH,
         payload: {
             isAuthenticated: false,
+            authLoading: false,
             user: null
+            
         }
     }
 }

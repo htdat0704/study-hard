@@ -1,15 +1,15 @@
 import { authReducer,authLoading } from '../../reducers/AuthReducer/authReducer';
 import { setAuthFail, setAuthSuccess } from '../../reducers/AuthReducer/authActions';
-import { useReducer,useEffect } from 'react'
+import { useReducer,useEffect} from 'react'
 import { AuthContext } from './AuthContext';
 import axios from 'axios'
 import { LOCAL_STORAGE_TOKEN_NAME } from '../constant'
 import setAuthToken from '../../utils/setAuthToken'
 
 
+
 const AuthContextProvider = ({children}) => {
     const [state,dispatch] = useReducer(authReducer,authLoading);
-
 
     // login succeess
     const loadUser = async()  => {
@@ -61,7 +61,8 @@ const AuthContextProvider = ({children}) => {
         }
     }
 
-    const logoutUser = () => {
+    const logoutUser = async () => {
+        await delete axios.defaults.headers.common['Authorization']
         localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
         dispatch(setAuthFail())
     }

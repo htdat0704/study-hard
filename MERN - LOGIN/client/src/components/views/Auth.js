@@ -4,10 +4,12 @@ import { AuthContext } from '../../context/Auth/AuthContext';
 import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner'
+import NavbarNoLogin from '../layout/NavBarNoLogin';
 
 const Auth = ({ authRoute }) => {
 
     const {state: {authLoading, isAuthenticated}} = useContext(AuthContext);
+    
 
     let body;
 
@@ -32,7 +34,9 @@ const Auth = ({ authRoute }) => {
     
 
     return(
-        <div className='landing'>
+        <>
+            <NavbarNoLogin></NavbarNoLogin>
+            <div className='landing'>
 			<div className='dark-overlay'>
                 <div className="container py-5 h-100">
                     <div className="row d-flex justify-content-center align-items-center h-100">
@@ -51,6 +55,7 @@ const Auth = ({ authRoute }) => {
                 </div>
             </div>
         </div>
+        </>
     )
 }
 

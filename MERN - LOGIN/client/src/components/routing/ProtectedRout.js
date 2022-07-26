@@ -4,7 +4,7 @@ import NavbarMenu from "../layout/NavBar"
 const Protected = ({ user, children }) => {
 
     if (!user) {
-        return <Navigate to="/login" replace />;
+        return <Navigate to="/dashboard" replace />;
     }
     
     return (
@@ -13,7 +13,6 @@ const Protected = ({ user, children }) => {
              {children}
         </>
     )
-
 };  
 
 export default Protected;
