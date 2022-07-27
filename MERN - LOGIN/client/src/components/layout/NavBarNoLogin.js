@@ -19,9 +19,6 @@ const NavbarNoLogin = () => {
                     <Nav.Link className='font-weight-bolder text-white' to='/dashboard' as={Link} >
                         DashBoard
                     </Nav.Link>
-                    <Nav.Link className='font-weight-bolder text-white' to='/about' as={Link} >
-                        About
-                    </Nav.Link>
                 </Nav>
 
                 <Nav style={{marginLeft: 'auto', marginRight: '30px'}}>

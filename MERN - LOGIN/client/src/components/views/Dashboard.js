@@ -15,7 +15,6 @@ const Dashboard = () =>{
 
     const { postState: {posts, postLoading}, getPosts, setShowAddPost} = useContext(PostContext);
     const { state:{ isAuthenticated, authLoading} } = useContext(AuthContext);
-
     useEffect(() => { 
         getPosts();
     }, [])

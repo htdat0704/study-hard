@@ -2,23 +2,25 @@ import Navbar from "react-bootstrap/Navbar"
 import Nav from "react-bootstrap/Nav"
 import Button from "react-bootstrap/Button"
 import avarta from '../../assets/avarta.jpg'
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import logoutIcon from '../../assets/logout.svg'
 import {AuthContext} from '../../context/Auth/AuthContext'
-import {useContext} from 'react'
+import {useContext, } from 'react'
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { PostContext } from "../../context/Post/PostContext"
 
 
 
 const NavbarMenu = () => {
-
+    const navigate = useNavigate()
     const {state : { user : {username }}, logoutUser} = useContext(AuthContext) ;
     const {setStateDefault} = useContext(PostContext)
 
-    const handleLogout = () => {
-        setStateDefault()
-        logoutUser()
+    const handleLogout = async e => {
+        e.preventDefault()
+        await setStateDefault()
+        await logoutUser()
+        await navigate('/login')
     }
 
     return (
@@ -31,9 +33,6 @@ const NavbarMenu = () => {
                 <Nav className ='mr-auto'>
                     <Nav.Link className='font-weight-bolder text-white' to='/dashboard' as={Link} >
                         DashBoard
-                    </Nav.Link>
-                    <Nav.Link className='font-weight-bolder text-white' to='/about' as={Link} >
-                        About
                     </Nav.Link>
                 </Nav>
 
@@ -51,7 +50,7 @@ const NavbarMenu = () => {
                             Logout
                         </NavDropdown.Item>
                     </NavDropdown>
-                    <Button variant='secondary' className='font-weight-bolder text-white' onClick ={handleLogout} to='/Login' as={Link} >
+                    <Button variant='secondary' className='font-weight-bolder text-white' onClick ={handleLogout}  >
                         <img src={logoutIcon} alt="logOut" width='32' height='32' className='mr-2'/>
                         Logout
                     </Button>

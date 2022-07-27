@@ -1,4 +1,4 @@
-import PostForm from '../auth/PostForm'
+import PostForm from '../singlePost/PostForm'
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/Auth/AuthContext';
 import NavbarMenu from '../layout/NavBar';
@@ -11,35 +11,37 @@ import { useParams } from 'react-router-dom';
 // import Badge from 'react-bootstrap/Badge';
 // import editIcon from '../../assets/edit.svg'
 // import Button from 'react-bootstrap/Button'
-import UpdateForm from '../auth/UpdateForm';
+import UpdateForm from '../singlePost/UpdateForm';
+import ProtectedUpdate from '../routing/ProtectedUpdate';
+import Protected from '../routing/ProtectedRout';
 
 const SinglePost = ({route}) => {
 
-    const {state:{ isAuthenticated, authLoading}} = useContext(AuthContext)
+    const {state:{ user, isAuthenticated}, loadUser} = useContext(AuthContext)
     const {postState:{ post}, getOnePost} = useContext(PostContext)
-    const [isLoading, setLoading] = useState(false);
-    console.log(authLoading)
+    const [isLoading, setLoading] = useState(true);
+    
     let body;
     let {slug}  = useParams();
 
-    // useEffect(async () =>{
-    //    await getOnePost(slug) 
-    //    isLoading = false
-    // },[slug])
-
-    console.log(post)
-
+    useEffect(() =>{
+        const response = async () => {
+            await getOnePost(slug);
+            await loadUser();
+            await setLoading(false)
+        }
+        response()
+    },[slug])
+    
     if(isLoading ){
-        console.log(post)
         body = (
             <div className="spinner-container">
                 <Spinner animation='border' variant='info'/>
             </div>
         )
 
-
     }else if(isAuthenticated){
-        
+        console.log(user.username)
         // body = (
         //     <>
         //         <NavbarMenu></NavbarMenu>
@@ -52,7 +54,11 @@ const SinglePost = ({route}) => {
                     <NavbarMenu></NavbarMenu>
                 
                     {route === 'post' && <PostForm  post={post}/>}
-                    {route === 'update' && <UpdateForm post={post} />}
+                    {route === 'update' && (
+                        <ProtectedUpdate post={post.user.username} user={user.username} >
+                            <UpdateForm post={post} />
+                        </ProtectedUpdate>
+                        )}
                 </>
             )
         )
@@ -68,8 +74,12 @@ const SinglePost = ({route}) => {
             (   
                 <>
                     <NavbarNoLogin></NavbarNoLogin>
-                    {route === 'update' && <UpdateForm post={post} />}
                     {route === 'post' && <PostForm  post={post}/>}
+                    {route === 'update' && (
+                        <Protected user={isAuthenticated}>
+                            <UpdateForm  />
+                        </Protected>
+                        )}
                 </>
             )
         )

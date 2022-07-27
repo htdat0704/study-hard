@@ -2,7 +2,7 @@ const mongo = require('mongoose');
 
 async function connect() {
     try {
-        await mongo.connect('mongodb://127.0.0.1:27017/MERN', {
+        await mongo.connect('mongodb+srv://durand:mungvip1@atlascluster.vrnmd.mongodb.net/MERN?retryWrites=true&w=majority', {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
@@ -13,3 +13,4 @@ async function connect() {
 }
 
 module.exports = { connect };
+

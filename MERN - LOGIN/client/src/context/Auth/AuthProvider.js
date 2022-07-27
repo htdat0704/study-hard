@@ -1,5 +1,5 @@
 import { authReducer,authLoading } from '../../reducers/AuthReducer/authReducer';
-import { setAuthFail, setAuthSuccess } from '../../reducers/AuthReducer/authActions';
+import { setAuthFail, setAuthSuccess, setAuthDefult } from '../../reducers/AuthReducer/authActions';
 import { useReducer,useEffect} from 'react'
 import { AuthContext } from './AuthContext';
 import axios from 'axios'
@@ -10,15 +10,22 @@ import setAuthToken from '../../utils/setAuthToken'
 
 const AuthContextProvider = ({children}) => {
     const [state,dispatch] = useReducer(authReducer,authLoading);
-
+    
     // login succeess
     const loadUser = async()  => {
+        let check = false;
         if(localStorage[LOCAL_STORAGE_TOKEN_NAME]){
-            setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME])
+            await setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME])
+            check=true
         }
+        
 
         try{
-            const response = await axios.get(`http://localhost:5000/auth`)
+            let response
+            if(check){
+                response = await axios.get(`http://localhost:5000/auth`)
+            }
+            console.log(response.data.success)
             if(response.data.success){
                 dispatch(setAuthSuccess(response.data.user))
             }
@@ -64,11 +71,11 @@ const AuthContextProvider = ({children}) => {
     const logoutUser = async () => {
         await delete axios.defaults.headers.common['Authorization']
         localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
-        dispatch(setAuthFail())
+        dispatch(setAuthDefult())
     }
 
 
-    const authContextData = {registerUser, loginUser,logoutUser, state}
+    const authContextData = {registerUser, loginUser,logoutUser, state, loadUser}
 
     return (
         <AuthContext.Provider value={authContextData}>

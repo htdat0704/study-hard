@@ -1,19 +1,28 @@
 import LoginForm from '../auth/LoginForm'
 import RegitserForm from '../auth/RegisterForm'
 import { AuthContext } from '../../context/Auth/AuthContext';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner'
 import NavbarNoLogin from '../layout/NavBarNoLogin';
 
 const Auth = ({ authRoute }) => {
 
-    const {state: {authLoading, isAuthenticated}} = useContext(AuthContext);
+    const {state: {authLoading, isAuthenticated}, loadUser} = useContext(AuthContext);
+    const {isLoading, setLoading} = useState(true)
     
+    const load = async () => {
+        await loadUser()
+        setLoading(false)
+    }
+
+    useEffect(() => {
+        load()
+    },[])
 
     let body;
 
-    if(authLoading){
+    if(isLoading){
         body = (
             <div className='d-flex justify-content-center mt-2'>
                 <Spinner animation='border' variant='info' />

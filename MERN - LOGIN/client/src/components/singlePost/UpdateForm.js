@@ -3,6 +3,9 @@ import Button from 'react-bootstrap/Button'
 import {useState, useContext} from 'react'
 import { PostContext } from '../../context/Post/PostContext'
 import { useNavigate } from 'react-router-dom'
+import setAuthToken from '../../utils/setAuthToken'
+import { LOCAL_STORAGE_TOKEN_NAME } from '../../context/constant'
+import Spinner from 'react-bootstrap/Spinner'
 
 const UpdateForm = ({post}) => {
 
@@ -16,25 +19,33 @@ const UpdateForm = ({post}) => {
         }))
     }
 
-    const {status,title,description,url} = updatedPost
 
     const handleSubmit = async event =>{
         event.preventDefault()
 
         try{
-            const response = await updateOnePost(updatedPost)
-            console.log(response.success)
-            // if(response.success){
-            //     navigate(`/post/${slug}`)
-            // }
+            await setAuthToken(localStorage[LOCAL_STORAGE_TOKEN_NAME])
+            await updateOnePost(updatedPost)
+
+            navigate(`/post/${updatedPost.slug}`)
+            
         }catch(e){
             console.log(e)
         }
 
     }
+    let body;
 
-    return (
-        <>  
+    if(!post){
+        body = (
+            <div className='d-flex justify-content-center mt-2'>
+                <Spinner animation='border' variant='info' />
+            </div>
+        )
+    }else{
+        const {status,title,description,url} = updatedPost
+        body = (
+            <>  
             <div className='landing-inner'>
             <Form onSubmit={handleSubmit}>
                 <h1 stye={{color: 'black'}}>UPDATE POST</h1>
@@ -74,7 +85,10 @@ const UpdateForm = ({post}) => {
             </Form>
             </div>
         </>
-      )
+        )
+    }
+
+    return body;
 }
 
 export default UpdateForm

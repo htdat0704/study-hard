@@ -6,13 +6,13 @@ import ActionButton from './ActionButton'
 
 const MultiPost = ({post: {_id, status, title, description, username, url, user, slug}}) => {
     return (
-    <Card className='shadow' border={status === 'LEARNED' ? 'success' :status ==='LEARNING' ? 'warning' : 'danger'}>
+    <Card className='shadow' border={status === 'TRAVEL' ? 'success' :status ==='FOOD AND DRINK' ? 'warning' : 'danger'}>
         <Card.Body>
             <Card.Title>
                 <Row>
                     <Col width='80%'>
-                        <p className='post-title'>Title:{title}</p>
-                        <Badge pill bg={status === 'LEARNED' ? 'success' :status ==='LEARNING' ? 'warning' : 'danger'} >{status}</Badge>
+                        <p className='post-title'>Title: {title}</p>
+                        <Badge pill bg={status === 'TRAVEL' ? 'success' :status ==='FOOD AND DRINK' ? 'warning' : 'danger'} >{status}</Badge>
                     </Col>
                     <Col style={{textAlign: 'right'}}>
                         <ActionButton url= {url} _id={_id} username={username || user.username} slug={slug} />

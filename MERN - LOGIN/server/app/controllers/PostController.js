@@ -15,23 +15,22 @@ class PostController {
             const newPost = new Post({
                 title,
                 description,
-                url: url.startsWith('https://') ? url : `https://${url}`,
-                status: status || 'TO LEARN',
+                url: url,
+                status: status || 'TRAVEL',
                 user: req.userId
             })
 
             await newPost.save()
                 
             const user = await User.findOne({_id: req.userId}).lean()
+            const postFind = await Post.findOne({title: title}).lean()
 
             const postOut = {
-                title,
-                description,
-                url: url.startsWith('https://') ? url : `https://${url}`,
-                status: status || 'TO LEARN',
-                user: req.userId,
+                ...postFind,
                 username: user.username
             }
+
+            console.log(postOut)
             
             res.json({success: true, message: "Welcome to LEARN HEAR", postOut})
         }catch(e){
@@ -88,13 +87,11 @@ class PostController {
 		let updatedPost = {
 			title,
 			description: description || '',
-			url: (url.startsWith('https://') ? url : `https://${url}`) || '',
-			status: status || 'TO LEARN'
+			url: url || '',
+			status: status || 'TRAVEL'
 		}
 
 		const postUpdateCondition = { _id: req.params.id, user: req.userId }
-        console.log(req.params.id)
-        console.log(req.userId)
 
 		updatedPost = await Post.findOneAndUpdate(
 			postUpdateCondition,

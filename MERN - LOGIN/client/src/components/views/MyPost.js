@@ -13,8 +13,8 @@ import { AuthContext } from "../../context/Auth/AuthContext";
 const MyPost = () =>{
 
     const { getPostOneUsers, setShowAddPost, postState: {posts, postLoading}} = useContext(PostContext);
-    const { state:{ user}, authLoading } = useContext(AuthContext);
-
+    const { state:{ user} } = useContext(AuthContext);
+    console.log(posts)
     useEffect(() =>  {
         getPostOneUsers()
     }, [])
@@ -53,15 +53,15 @@ const MyPost = () =>{
 				<Card className='text-center mx-5 my-5'>
 					<Card.Header as='h1'>Hi {user.username}</Card.Header>
 					<Card.Body>
-						<Card.Title>Welcome to LearnIt</Card.Title>
+						<Card.Title>Welcome to Post everyday</Card.Title>
 						<Card.Text>
-							Click the button below to track your first skill to learn
+							Click the button below to track your experience
 						</Card.Text>
 						<Button
 							variant='primary'
 							onClick={setShowAddPost.bind(this, true)}
 						>
-							LearnIt!
+							Submit new Post
 						</Button>
 					</Card.Body>
 				</Card>

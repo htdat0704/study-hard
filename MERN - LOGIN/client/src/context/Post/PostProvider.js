@@ -51,7 +51,7 @@ function PostProvider({children}) {
         try{
             const response = await axios.post('http://localhost:5000/post/create', newPost)
             if(response.data.success){
-                dispatch(setAddPost(response.data.postOut))
+                await dispatch(setAddPost(response.data.postOut))
                 return response.data
             }
         }catch(e){
@@ -76,7 +76,7 @@ function PostProvider({children}) {
         try{
             const response = await axios.put(`http://localhost:5000/post/update/${updatePostForm._id}`,updatePostForm)
             if(response.data.success){
-                dispatch(updatePost(response.data.updatePost))
+                dispatch(updatePost(response.data.post))
             }
             return response.data
         }catch(e){
@@ -91,7 +91,7 @@ function PostProvider({children}) {
             if(response.data.success){
                 await dispatch(getPost(response.data.postFind))
             }
-            return response.data.postFind;
+            return response;
         }catch(e){
             console.log(e)
         }
